@@ -1,13 +1,22 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef MAIN_H
+#define MAIN_H
 
 #define MAX_PACIENTES 100
 
-typedef struct paciente Paciente;
+typedef struct {
+    int id;
+    char cpf[15];
+    char nome[100];
+    int idade;
+    char data_cadastro[11];
+} Paciente;
 
-typedef struct bdpaciente BDPaciente;
+typedef struct {
+    Paciente pacientes[MAX_PACIENTES];
+    int total;
+} BDPaciente;
 
-void carregar_banco(BDPaciente *bd, const char *arquivo_csv);
+int carregar_banco(BDPaciente *bd, const char *arquivo_csv);
 
 void consultar_por_nome(const BDPaciente *bd, const char *prefixo);
 

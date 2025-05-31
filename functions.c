@@ -1,25 +1,13 @@
 #include "functions.h"
 #include <stdio.h>
+#include <string.h>
 
-struct paciente {
-    int id;
-    char cpf[15];
-    char nome[100];
-    int idade;
-    char data_cadastro[11];
-};
-
-struct bdpaciente {
-    Paciente pacientes[MAX_PACIENTES];
-    int total;
-};
-
-void carregar_banco(BDPaciente *bd, const char *arquivo_csv) {
+int carregar_banco(BDPaciente *bd, const char *arquivo_csv) {
 
     FILE *arquivo = fopen(arquivo_csv, "r");
     if (!arquivo) {
         printf("Erro ao abrir o arquivo %s.\n", arquivo_csv);
-        exit(1);
+        return 1;
     }
 
     bd->total = 0;
@@ -58,6 +46,7 @@ void carregar_banco(BDPaciente *bd, const char *arquivo_csv) {
 
     fclose(arquivo);
 
+    return 0;
 }
 
 void remover_quebra_linha(char *str) {

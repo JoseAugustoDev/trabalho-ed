@@ -5,13 +5,13 @@ CC = gcc
 CFLAGS = -Wall
 
 # Source files
-SRCS = main.c linkedlist.c
+SRCS = main.c functions.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
 
 # Executable name
-TARGET = test_linkedlist
+TARGET = test_trabalho_1
 
 # Phony targets
 .PHONY: all compile run clean
