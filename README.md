@@ -2,7 +2,7 @@
 
 ## 📋 Descrição
 
-Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma clínica, desenvolvido em linguagem C. Os dados são armazenados em um arquivo `.csv` e carregados em memória usando um vetor estático. Esta primeira parte do trabalho implementa as funcionalidades de **consulta** e **listagem** de pacientes.
+Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma clínica, desenvolvido em linguagem C. Os dados são armazenados em um arquivo `.csv` e carregados em memória usando um vetor estático. Esta primeira parte do trabalho implementa as funcionalidades de consulta, por nome e cpf, e listagem de pacientes.
 
 ---
 
@@ -10,26 +10,24 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
 ### 1. Pré-requisitos
 
-- Sistema Linux (recomendado Ubuntu 22.04)
 - Compilador GCC 11
 - `make` instalado
+    - Se não tiver instalado: sudo apt install make
 
 ### 2. Clonar o repositório
 
-    git clone
-    cd
+    git clone https://github.com/JoseAugustoDev/trabalho-ed
+    cd trabalho-ed
 
-### 3. Compilar
+### 3. Compilar e Executar
 
-    make
+    make clean run all
 
-### 4. Executar
-
-    ./healthsys
 
 🧠 Funcionalidades
     🔍 Consulta de paciente
-    Permite buscar pacientes por nome ou CPF, usando busca por prefixo. Exibe os dados completos de cada paciente correspondente.
+    1 - Permite buscar pacientes por nome ou CPF, usando busca por prefixo. 
+    2 - Exibe os dados completos de cada paciente correspondente.
 
 📄 Listagem de pacientes
 
@@ -69,10 +67,6 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
 ⚙️ Decisões de Implementação
 
-    Vetor estático foi escolhido conforme especificado no enunciado.
+    A busca por prefixo foi implementada parecido com uma questão da prova.
 
-    A busca por prefixo foi implementada com strncmp para strings.
-
-    A separação por módulos ajuda a manter o código organizado e facilita a manutenção.
-
-    A leitura do CSV foi feita utilizando fgets() e sscanf() para extração dos campos.
+    Decidi limitar o numero de pacientes para 100.
