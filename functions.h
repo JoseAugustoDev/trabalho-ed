@@ -28,6 +28,8 @@ void remover_quebra_linha(char *str);
 
 void exibir_menu();
 
+void menu(BDPaciente *bd);
+
 void executar_consulta(BDPaciente *bd);
 
 void executar_listagem(BDPaciente *bd);
