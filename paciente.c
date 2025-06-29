@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+
+// TODO
+// Pedir confirmação para remover, atualizar e inserir antes de realizar a ação.
+
+
 void exibir_menu() {
     printf("\n=== MENU PRINCIPAL ===\n");
     printf("1 - Consultar Paciente\n");
