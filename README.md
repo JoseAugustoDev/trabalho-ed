@@ -21,7 +21,10 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
 ### 3. Compilar e Executar
 
-    make clean run all
+    make -> Compila o projeto
+    make clean -> remove os arquivos compilados
+    make run -> compila e executa
+    make clean run -> Compila e executa o projeto, removendo arquivos de execução anteriores
 
 
 🧠 Funcionalidades
