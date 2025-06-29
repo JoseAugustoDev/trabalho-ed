@@ -11,7 +11,7 @@ SRCS = main.c paciente.c
 OBJS = $(SRCS:.c=.o)
 
 # Executable name
-TARGET = test_trabalho_1
+TARGET = test_trabalho
 
 # Phony targets
 .PHONY: all compile run clean

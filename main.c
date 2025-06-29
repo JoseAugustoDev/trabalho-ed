@@ -5,7 +5,7 @@
 #define CSV_ARQUIVO "bd_paciente.csv"
 
 int main() {
-    BDPaciente *bd = malloc(sizeof(BDPaciente));
+    ListaPaciente *bd = malloc(sizeof(ListaPaciente));
 
     if (carregar_banco(bd, "bd_paciente.csv") != 0) {
         return 1;
