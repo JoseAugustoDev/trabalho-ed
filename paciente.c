@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "paciente.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

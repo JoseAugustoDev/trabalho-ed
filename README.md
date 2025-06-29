@@ -69,4 +69,4 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
     A busca por prefixo foi implementada parecido com uma questão da prova.
 
-    Decidi limitar o numero de pacientes para 100.
+    Decidi limitar o numero de pacientes para 50.

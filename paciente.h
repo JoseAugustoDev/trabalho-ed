@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define MAX_PACIENTES 100
+#define MAX_PACIENTES 50
 
 typedef struct {
     int id;

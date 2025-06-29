@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "functions.h"
+#include "paciente.h"
 
 #define CSV_ARQUIVO "bd_paciente.csv"
 

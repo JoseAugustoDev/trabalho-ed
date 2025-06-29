@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall
 
 # Source files
-SRCS = main.c functions.c
+SRCS = main.c paciente.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
