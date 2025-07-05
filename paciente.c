@@ -22,8 +22,12 @@ void menu(ListaPaciente *lista) {
     do {
         exibir_menu();
         printf("Escolha uma opção: ");
-        scanf(" %c", &opcao);
-        getchar();
+        char buffer[16];
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+            opcao = buffer[0];
+        } else {
+            opcao = '\0';
+        }
 
         switch (opcao) {
             case '1':
@@ -70,9 +74,20 @@ int carregar_banco(ListaPaciente *lista, const char *arquivo_csv) {
         Paciente *novo = malloc(sizeof(Paciente));
         if (!novo) {
             printf("Erro de alocação.\n");
-            continue;
+            // Libera todos os pacientes já carregados
+            Paciente *tmp = lista->inicio;
+            while (tmp) {
+                Paciente *prox = tmp->prox;
+                free(tmp);
+                tmp = prox;
+            }
+            lista->inicio = NULL;
+            lista->total = 0;
+            fclose(arquivo);
+            return 1;
         }
 
+        // Lendo os campos do csv: id, cpf (string até vírgula, máx. 14), nome (string até vírgula, máx. 99), idade, data_cadastro (string com até 10 caracteres)
         int campos = sscanf(linha, "%d,%14[^,],%99[^,],%d,%10s",
                             &novo->id, novo->cpf, novo->nome, &novo->idade, novo->data_cadastro);
         if (campos != 5) {
@@ -100,6 +115,7 @@ int carregar_banco(ListaPaciente *lista, const char *arquivo_csv) {
 
 
 void remover_quebra_linha(char *str) {
+    // Remove a quebra de linha no final da string facilitando a comparação
     size_t len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
         str[len - 1] = '\0';
@@ -113,7 +129,7 @@ void consultar_por_nome(const ListaPaciente *lista, const char *prefixo) {
 
     while (atual != NULL) {
         int match = 1;
-
+        // Verifica se o prefixo corresponde, comparando letra por letra
         for (int i = 0; i < tam_prefixo; i++) {
             char c1 = tolower((unsigned char)prefixo[i]);
             char c2 = tolower((unsigned char)atual->nome[i]);
@@ -150,7 +166,7 @@ void consultar_por_cpf(const ListaPaciente *lista, const char *prefixo) {
 
     while (atual != NULL) {
         int match = 1;
-
+        // Verifica se o prefixo corresponde, comparando caracter por caractere
         for (int i = 0; i < tam_prefixo; i++) {
             if (prefixo[i] != atual->cpf[i]) {
                 match = 0;
@@ -177,6 +193,8 @@ void consultar_por_cpf(const ListaPaciente *lista, const char *prefixo) {
 }
 
 void executar_consulta(ListaPaciente *lista) {
+    // Modularização da consulta de pacientes
+    // Permite consultar por nome ou CPF, ou retornar ao menu principal
     char opcao;
     char entrada[100];
 
@@ -224,6 +242,8 @@ void imprimir_pacientes(const ListaPaciente *lista) {
     Paciente *atual = lista->inicio;
 
     while (atual != NULL) {
+        // Padronizando a exibição dos dados
+        // ID: 2 dígitos, CPF: 16 caracteres, Nome: 24 caracteres, Idade: 5 dígitos, Data de Cadastro: 10 caracteres
         printf("%-2d | %-16s | %-24s | %-5d | %s\n",
                atual->id,
                atual->cpf,
@@ -253,7 +273,7 @@ void inserir_paciente(ListaPaciente *lista) {
 
     // Leitura dos dados
     printf("Digite o CPF: ");
-    scanf("%s", novo->cpf);
+    scanf("%13s", novo->cpf);
     getchar();
     
     printf("Digite o nome: ");
@@ -263,12 +283,12 @@ void inserir_paciente(ListaPaciente *lista) {
     
     char buffer[16];
     printf("Digite a idade: ");
-    scanf("%s", buffer);
+    scanf("%15s", buffer);
     novo->idade = atoi(buffer);
     getchar();
 
     printf("Digite a data de cadastro (AAAA-MM-DD): ");
-    scanf("%s", novo->data_cadastro);
+    scanf("%9s", novo->data_cadastro);
     getchar();
     
     if (strlen(novo->cpf) == 0 || strlen(novo->nome) == 0 || novo->idade <= 0 || strlen(novo->data_cadastro) != 10) {
@@ -280,11 +300,10 @@ void inserir_paciente(ListaPaciente *lista) {
     // Confirmação
     printf("\nPaciente digitado:\n");
     printf("%d %s %s %d %s\n", novo->id, novo->cpf, novo->nome, novo->idade, novo->data_cadastro);
-    printf("Deseja realmente inserir este paciente? (S/N): ");
+    printf("Deseja realmente atualizar este paciente? (S/N): ");
 
     char resposta;
     scanf(" %c", &resposta);
-    getchar();
 
     if (resposta != 'S' && resposta != 's') {
         printf("Inserção cancelada.\n");
@@ -321,6 +340,9 @@ void remover_paciente(ListaPaciente *lista) {
     fgets(termo, sizeof(termo), stdin);
     remover_quebra_linha(termo);
 
+    // Busca pelo paciente
+    // Se encontrar mais de um paciente, solicita que o usuário refine a busca
+    // Se não encontrar, informa que o paciente não foi encontrado
     Paciente *anterior = NULL;
     Paciente *atual = lista->inicio;
     Paciente *encontrado = NULL;
@@ -331,7 +353,7 @@ void remover_paciente(ListaPaciente *lista) {
     while (atual != NULL) {
         int match_nome = 1;
         int match_cpf = 1;
-
+        // Verifica se o termo corresponde ao nome
         for (int i = 0; i < tam_termo; i++) {
             if (tolower(termo[i]) != tolower(atual->nome[i])) {
                 match_nome = 0;
@@ -339,6 +361,7 @@ void remover_paciente(ListaPaciente *lista) {
             }
         }
 
+        // Verifica se o termo corresponde ao CPF do paciente
         for (int i = 0; i < tam_termo; i++) {
             if (termo[i] != atual->cpf[i]) {
                 match_cpf = 0;
@@ -346,6 +369,7 @@ void remover_paciente(ListaPaciente *lista) {
             }
         }
 
+        // Se o termo corresponder ao nome ou CPF, armazena o paciente encontrado e incrementa o contador
         if (match_nome || match_cpf) {
             contador++;
             if (contador > 1) {
@@ -406,6 +430,9 @@ void atualizar_paciente(ListaPaciente *lista) {
     fgets(termo, sizeof(termo), stdin);
     remover_quebra_linha(termo);
 
+    // Busca pelo paciente
+    // Se encontrar mais de um paciente, solicita que o usuário refine a busca
+    // Se não encontrar, informa que o paciente não foi encontrado
     Paciente *atual = lista->inicio;
     Paciente *encontrado = NULL;
     int tam_termo = strlen(termo);
@@ -453,6 +480,7 @@ void atualizar_paciente(ListaPaciente *lista) {
     printf("\nPaciente encontrado:\n");
     printf("%d %s %s %d %s\n", encontrado->id, encontrado->cpf, encontrado->nome, encontrado->idade, encontrado->data_cadastro);
 
+    // Atualizar o CPF
     printf("\nNovo CPF (ENTER para manter): ");
     fgets(buffer, sizeof(buffer), stdin);
     remover_quebra_linha(buffer);
@@ -465,6 +493,7 @@ void atualizar_paciente(ListaPaciente *lista) {
         encontrado->cpf[i] = '\0';
     }
 
+    // Atualizando o nome
     printf("Novo nome (ENTER para manter): ");
     fgets(buffer, sizeof(buffer), stdin);
     remover_quebra_linha(buffer);
@@ -477,6 +506,7 @@ void atualizar_paciente(ListaPaciente *lista) {
         encontrado->nome[i] = '\0';
     }
 
+    // Atualizando a idade
     printf("Nova idade (0 para manter): ");
     fgets(buffer, sizeof(buffer), stdin);
     remover_quebra_linha(buffer);
@@ -485,6 +515,7 @@ void atualizar_paciente(ListaPaciente *lista) {
         encontrado->idade = nova_idade;
     }
 
+    // Atualizando a data de cadastro
     printf("Nova data de cadastro (AAAA-MM-DD) (ENTER para manter): ");
     fgets(buffer, sizeof(buffer), stdin);
     remover_quebra_linha(buffer);
@@ -497,6 +528,7 @@ void atualizar_paciente(ListaPaciente *lista) {
         encontrado->data_cadastro[i] = '\0';
     }
 
+    // Confirmação
     printf("\nPaciente atualizado:\n");
     printf("%d %s %s %d %s\n", encontrado->id, encontrado->cpf, encontrado->nome, encontrado->idade, encontrado->data_cadastro);
     printf("Deseja realmente inserir este paciente? (S/N): ");
@@ -507,7 +539,6 @@ void atualizar_paciente(ListaPaciente *lista) {
 
     if (resposta != 'S' && resposta != 's') {
         printf("Inserção cancelada.\n");
-        free(encontrado);
         return;
     }
 
