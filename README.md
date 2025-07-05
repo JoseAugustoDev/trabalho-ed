@@ -28,9 +28,12 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
 
 🧠 Funcionalidades
-    🔍 Consulta de paciente
+
+🔍 Consulta de paciente
+
     1 - Permite buscar pacientes por nome ou CPF, usando busca por prefixo. 
     2 - Exibe os dados completos de cada paciente correspondente.
+    3 - Permite inserir, atualizar e remover pacientes
 
 📄 Listagem de Pacientes
 
@@ -52,25 +55,19 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
     Paciente
 
-    ```c
-    typedef struct paciente {
-        int id;
-        char cpf[15];
-        char nome[100];
-        int idade;
-        char data_cadastro[11];
-        struct paciente *prox;
-    } Paciente;
-    ```
+        typedef struct paciente {
+            int id;
+            char cpf[15];
+            char nome[100];
+            int idade;
+            char data_cadastro[11];
+            struct paciente *prox;
+        } Paciente;
 
     ListaPaciente
 
-    ```c
-    typedef struct {
-        Paciente *inicio;
-        int total;
-    } ListaPaciente;
-    ```
+        typedef struct {
+            Paciente *inicio;
             int total;
         } ListaPaciente;
 
@@ -88,6 +85,7 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 ⚙️ Decisões de Implementação
 
     Utilizar uma lista encadeada simples como estrutura principal. Isso permite:
+
         * Alocação dinâmica
         * Ausência de limite fixo de pacientes
         * Mais flexibilidade
