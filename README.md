@@ -2,7 +2,7 @@
 
 ## 📋 Descrição
 
-Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma clínica, desenvolvido em linguagem C. Os dados são armazenados em um arquivo `.csv` e carregados em memória usando um vetor estático. Esta primeira parte do trabalho implementa as funcionalidades de consulta, por nome e cpf, e listagem de pacientes.
+Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma clínica, desenvolvido em linguagem C. Os dados são armazenados em um arquivo `.csv` e carregados em memória usando uma lista encadeada. Esta primeira parte do trabalho implementa as funcionalidades de consulta, por nome e cpf, e listagem de pacientes.
 
 ---
 
@@ -32,9 +32,9 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
     1 - Permite buscar pacientes por nome ou CPF, usando busca por prefixo. 
     2 - Exibe os dados completos de cada paciente correspondente.
 
-📄 Listagem de pacientes
+📄 Listagem de Pacientes
 
-    Exibe todos os pacientes armazenados, com os seguintes campos:
+    O sistema permite a listagem completa dos pacientes cadastrados, exibindo na tela, em formato de tabela, os seguintes campos para cada registro:
 
     ID
 
@@ -46,30 +46,54 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
     Data de Cadastro
 
+    Os dados são exibidos na ordem de inserção, ou seja, do paciente mais antigo para o mais recente, refletindo o comportamento de uma fila (FIFO).
+
 🧩 TADs Utilizados
 
-    BDPaciente
+    Paciente
 
-    Um TAD que representa o banco de dados em memória. Utiliza um vetor estático de registros, com funções para:
-
-    Carregar dados do arquivo CSV
-
-    Consultar paciente por nome ou CPF
-
-    Listar todos os pacientes
-
-    Cada paciente é representado por uma struct com os seguintes campos:
-
-    typedef struct {
+    ```c
+    typedef struct paciente {
         int id;
         char cpf[15];
         char nome[100];
         int idade;
         char data_cadastro[11];
+        struct paciente *prox;
     } Paciente;
+    ```
+
+    ListaPaciente
+
+    ```c
+    typedef struct {
+        Paciente *inicio;
+        int total;
+    } ListaPaciente;
+    ```
+            int total;
+        } ListaPaciente;
+
+    A ListaPaciente é o TAD principal do sistema. Ela armazena:
+
+        * Um ponteiro para o primeiro paciente da lista (inicio);
+
+        * O número total de pacientes cadastrados (total).
+
+    O uso dessas estruturas seguem o comportamento de uma fila, ou seja:
+
+        * A inserção de um novo paciente é feita no final da lista
+        * A remoção de um paciente é feita no ínicio
 
 ⚙️ Decisões de Implementação
 
-    A busca por prefixo foi implementada parecido com uma questão da prova.
+    Utilizar uma lista encadeada simples como estrutura principal. Isso permite:
+        * Alocação dinâmica
+        * Ausência de limite fixo de pacientes
+        * Mais flexibilidade
 
-    Decidi limitar o numero de pacientes para 50.
+    Apesar de estar implementada como uma lista encadeade, seu comportamento é de uma fila. Foi feito dessa maneira, pois é a melhor forma de representar um ambiente tradicional de atendimentos real.
+
+    Modularização
+
+        * Todas as funções foram organizadas em módulos independentes a fim de ter uma melhor organização 
