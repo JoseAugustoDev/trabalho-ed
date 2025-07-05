@@ -6,7 +6,7 @@
 
 
 // TODO
-// Pedir confirmação para remover, atualizar e inserir antes de realizar a ação.
+// Pedir confirmação para atualizar e inserir antes de realizar a ação.
 
 
 void exibir_menu() {
@@ -281,6 +281,21 @@ void inserir_paciente(ListaPaciente *lista) {
         return;
     }
 
+    // Confirmação
+    printf("\nPaciente digitado:\n");
+    printf("%d %s %s %d %s\n", novo->id, novo->cpf, novo->nome, novo->idade, novo->data_cadastro);
+    printf("Deseja realmente inserir este paciente? (S/N): ");
+
+    char resposta;
+    scanf(" %c", &resposta);
+    getchar();
+
+    if (resposta != 'S' && resposta != 's') {
+        printf("Inserção cancelada.\n");
+        free(novo);
+        return;
+    }
+
     novo->prox = NULL;
 
     // Inserir no final da lista
@@ -354,7 +369,7 @@ void remover_paciente(ListaPaciente *lista) {
         return;
     }
 
-    // Confirma remoção
+    // Confirmação
     printf("Paciente encontrado:\n");
     printf("%d %s %s %d %s\n",
            encontrado->id, encontrado->cpf, encontrado->nome,
@@ -484,6 +499,20 @@ void atualizar_paciente(ListaPaciente *lista) {
             i++;
         }
         encontrado->data_cadastro[i] = '\0';
+    }
+
+    printf("\nPaciente atualizado:\n");
+    printf("%d %s %s %d %s\n", encontrado->id, encontrado->cpf, encontrado->nome, encontrado->idade, encontrado->data_cadastro);
+    printf("Deseja realmente inserir este paciente? (S/N): ");
+
+    char resposta;
+    scanf(" %c", &resposta);
+    getchar();
+
+    if (resposta != 'S' && resposta != 's') {
+        printf("Inserção cancelada.\n");
+        free(encontrado);
+        return;
     }
 
     printf("\nPaciente atualizado com sucesso:\n");
