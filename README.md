@@ -53,45 +53,45 @@ Este projeto consiste em um sistema simples de gerenciamento de pacientes de uma
 
 🧩 TADs Utilizados
 
-    Paciente
+Paciente
 
-        typedef struct paciente {
-            int id;
-            char cpf[15];
-            char nome[100];
-            int idade;
-            char data_cadastro[11];
-            struct paciente *prox;
-        } Paciente;
+    typedef struct paciente {
+        int id;
+        char cpf[15];
+        char nome[100];
+        int idade;
+        char data_cadastro[11];
+        struct paciente *prox;
+    } Paciente;
 
-    ListaPaciente
+ListaPaciente
 
-        typedef struct {
-            Paciente *inicio;
-            int total;
-        } ListaPaciente;
+    typedef struct {
+        Paciente *inicio;
+        int total;
+    } ListaPaciente;
 
-    A ListaPaciente é o TAD principal do sistema. Ela armazena:
+A ListaPaciente é o TAD principal do sistema. Ela armazena:
 
-        * Um ponteiro para o primeiro paciente da lista (inicio);
+    * Um ponteiro para o primeiro paciente da lista (inicio);
 
-        * O número total de pacientes cadastrados (total).
+    * O número total de pacientes cadastrados (total).
 
-    O uso dessas estruturas seguem o comportamento de uma fila, ou seja:
+O uso dessas estruturas seguem o comportamento de uma fila, ou seja:
 
-        * A inserção de um novo paciente é feita no final da lista
-        * A remoção de um paciente é feita no ínicio
+    * A inserção de um novo paciente é feita no final da lista
+    * A remoção de um paciente é feita no ínicio
 
 ⚙️ Decisões de Implementação
 
-    Utilizar uma lista encadeada simples como estrutura principal. Isso permite:
+Utilizar uma lista encadeada simples como estrutura principal. Isso permite:
 
-        * Alocação dinâmica
-        * Ausência de limite fixo de pacientes
-        * Mais flexibilidade
+    * Alocação dinâmica
+    * Ausência de limite fixo de pacientes
+    * Mais flexibilidade
 
-    Apesar de estar implementada como uma lista encadeade, seu comportamento é de uma fila. Foi feito dessa maneira, pois é a melhor forma de representar um ambiente tradicional de atendimentos real.
+Apesar de estar implementada como uma lista encadeade, seu comportamento é de uma fila. Foi feito dessa maneira, pois é a melhor forma de representar um ambiente tradicional de atendimentos real.
 
-    Modularização
+Modularização
 
-        * Todas as funções foram organizadas em módulos independentes a fim de ter uma melhor organização 
+    * Todas as funções foram organizadas em módulos independentes a fim de ter uma melhor organização 
