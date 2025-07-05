@@ -273,7 +273,7 @@ void inserir_paciente(ListaPaciente *lista) {
 
     // Leitura dos dados
     printf("Digite o CPF: ");
-    scanf("%13s", novo->cpf);
+    scanf("%s", novo->cpf);
     getchar();
     
     printf("Digite o nome: ");
@@ -283,12 +283,12 @@ void inserir_paciente(ListaPaciente *lista) {
     
     char buffer[16];
     printf("Digite a idade: ");
-    scanf("%15s", buffer);
+    scanf("%s", buffer);
     novo->idade = atoi(buffer);
     getchar();
 
     printf("Digite a data de cadastro (AAAA-MM-DD): ");
-    scanf("%9s", novo->data_cadastro);
+    scanf("%s", novo->data_cadastro);
     getchar();
     
     if (strlen(novo->cpf) == 0 || strlen(novo->nome) == 0 || novo->idade <= 0 || strlen(novo->data_cadastro) != 10) {
